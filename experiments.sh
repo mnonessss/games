@@ -1,7 +1,5 @@
-temp=temp_file
-for n in $(sed "$number_of_user c\ $coins" coins_of_users)
+db=$1
+for line in $(cat $db)
 do
-    echo $n >> $temp
+    echo $line
 done
-rm coins_of_users
-mv $temp coins_of_users

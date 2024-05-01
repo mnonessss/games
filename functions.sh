@@ -59,3 +59,11 @@ function rewrite_coins {
     rm $db_coins
     mv $temp $db_coins
 }
+
+function all_reviews {
+    db=$1
+    for line in $(cat $db)
+    do
+        echo $line
+    done
+}
