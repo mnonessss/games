@@ -7,6 +7,8 @@ db_name=users
 db_coins=coins_of_users
 db_grades_bc=grades_bulls_and_cows
 db_grades_cards=grades_cards
+db_review_bc=reviews_bulls_and_cows
+db_review_c=reviews_cards
 echo "Добро пожаловать в скрипт 'мини - игры'"
 read -p "Вы хотите войти или зарегистрироваться? Если войти - введите 1, если зарегистрироваться - введите 2: " autorize_or_registration
 if [[ $autorize_or_registration == 1 ]]
