@@ -17,7 +17,7 @@ function autorization {
     if [[ $login_in_base -eq 0 ]]
     then
         echo "Пользователя $login нет в базе"
-        exit
+        exit 1
     fi
 
     #ввод пароля
@@ -26,11 +26,13 @@ function autorization {
         if [[ $attempts -eq 3 ]]
         then
             read -s -p "Введите пароль: " password
+            echo
         fi
         if [[ $attempts -lt 3 ]]
         then
             echo "Пароль неверный. Повторите попытку."
             read -s -p "Введите пароль снова: " password
+            echo
         fi
         hashed_pswd=$(hash_pswd $password)
         if [[ $line == $login$separator$hashed_pswd ]]
@@ -44,7 +46,7 @@ function autorization {
     if [[ $attempts -eq 0 ]]
     then
         echo "Неудачная попытка входа в систему"
-        exit
+        exit 1
     fi
 }
 

@@ -62,8 +62,32 @@ function rewrite_coins {
 
 function all_reviews {
     db=$1
-    for line in $(cat $db)
+    while read line
     do
         echo $line
+    done < $db
+}
+
+function average {
+    db=$1
+    sum=0
+    k=0
+    for line in $(cat $db)
+    do
+        sum=$(($sum+$line))
+        k=$(($k+1))
     done
+    echo "scale=2; $sum / $k" | bc
+}
+
+function is_digit {
+    check_is_digit=false
+    str=$1
+    digit_or_not=$(echo $str | awk '/^[0-9]+$/{print$1}')
+    if [[ -n $digit_or_not ]]
+    then
+        check_is_digit=true
+    else
+        echo "Это не число"
+    fi
 }

@@ -8,24 +8,25 @@ function registration {
     if [[ ! -n $login ]]
     then
         echo "Логин не может быть пустым"
-        exit
+        exit 1
     fi
 
     #проверка на наличие разделителя в логине
     if [[ $login == *$separator* ]]
     then
         echo "Логин не может содержать символа |"
-        exit
+        exit 1
     fi
 
     #проверка на наличие логина в базе
     if ! check_login $login $db_name $separator
     then
         echo "Пользователь с таким логином уже зарегистрирован"
-        exit
+        exit 1
     fi
     echo "Логин $login был принят!"
     read -s -p "Введите пароль (он не может содержать символ $separator и должен быть не менее 6 символов в длину)" password
+    echo
 
     pswd_checked=false
     while [ $pswd_checked != true ]
@@ -34,6 +35,7 @@ function registration {
         if [[ ! -n $password ]]
         then
             read -s -p "Пароль не может быть пустым! Попробуйте еще раз: " password
+            echo
             continue
         fi
 
@@ -41,6 +43,7 @@ function registration {
         if [[ $password == *$separator* ]]
         then
             read -s -p "Пароль не должен содержать символ $separator. Попробуйте еще раз: " password
+            echo
             continue
         fi
 
@@ -49,6 +52,7 @@ function registration {
         if [ $length -lt 6 ]
         then
             read -s -p "Пароль должен быть не менее 6 символов в длину. Попробуйте еще раз:" password
+            echo
             continue
         fi
 
@@ -59,11 +63,13 @@ function registration {
     done
 
     read -s -p "Подтвердите пароль: " repeat
+    echo
 
     #проверка на совпадение паролей
     while [ ! $password == $repeat ]
     do
         read -s -p "Введенные пароли не совпадают. Попробуйте еще раз: " repeat
+        echo
         continue
     done
 
