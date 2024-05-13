@@ -1,18 +1,14 @@
-. ./registration.sh
-. ./autorization.sh
 . ./functions.sh
 . ./bull_and_cows.sh
 . ./cards.sh
 . ./review.sh
 . ./rate.sh
 separator="|"
-db_name=users
-db_coins=coins_of_users
 db_grades_bc=grades_bulls_and_cows
 db_grades_cards=grades_cards
 db_review_bc=reviews_bulls_and_cows
 db_review_c=reviews_cards
-files=(autorization.sh bull_and_cows.sh cards.sh coins_of_users experiments.sh functions.sh grades_bulls_and_cows grades_cards main.sh rate.sh registration.sh review.sh reviews_bulls_and_cows reviews_cards shop.sh users)
+files=(bull_and_cows.sh cards.sh functions.sh grades_bulls_and_cows grades_cards main.sh rate.sh review.sh reviews_bulls_and_cows reviews_cards)
 for ((i=0;i<${#files[*]};i++))
 do
     if [[ ! -f ${files[$i]} ]]
@@ -22,32 +18,6 @@ do
     fi
 done
 echo "Добро пожаловать в скрипт 'мини - игры'"
-read -p "Вы хотите войти или зарегистрироваться? Если войти - введите 1, если зарегистрироваться - введите 2: " autorize_or_registration
-if [[ $autorize_or_registration == 1 ]]
-then
-    autorization
-fi
-
-if [[ $autorize_or_registration == 2 ]]
-then
-    registration
-fi
-
-if [[ $autorize_or_registration != 1 ]] && [[ $autorize_or_registration != 2 ]]
-then
-    echo "Вы ввели недопустимое значение"
-    exit 1
-fi
-line_now=1
-for line in $(cat $db_coins)
-do
-    if [[ $line_now -eq $number_of_user ]]
-    then
-        coins=$line
-        break
-    fi
-    line_now=$(($line_now+1))
-done
 #основная часть скрипта
 repetitions=true
 while [[ $repetitions == true ]]
@@ -56,7 +26,8 @@ do
     echo "Чтобы сыграть в игру Memory - введите 2. Cредняя оценка: " $(average $db_grades_cards)
     echo "Чтобы оставить отзыв на одну из игр - введите 3"
     echo "Чтобы посмотреть все отзывы на одну из игр - введите 4"
-    read -p "Чтобы оставить оценку на одну из игр - введите 5: " action
+    echo "Чтобы оставить оценку на одну из игр - введите 5: "
+    read -p "Чтобы посмотреть все оценки одной из игр, введите 6: " action
     action_check=false
     while [[ $action_check != true ]]
     do
@@ -69,10 +40,11 @@ do
         is_digit $action
         if [[ $check_is_digit == false ]]
         then
+            echo "Это некорректное значение"
             read -p "Попробуйте еще раз: " action
             continue
         fi
-        if [[ $action -lt 1 ]] || [[ $action -gt 5 ]]
+        if [[ $action -lt 1 ]] || [[ $action -gt 6 ]]
         then
             echo "Вы ввели некорректное значение"
             read -p "Попробуйте еще раз: " action
@@ -102,12 +74,35 @@ do
             db_for_action=reviews_cards
         fi
     fi
+    if [[ $action -eq 6 ]]
+    then
+        echo "Если Вы хотите посмотреть оценки игры 'Быки и коровы', введите 1"
+        read -p "Если Вы хотите посмотреть оценки игры 'Memory', введите 2: " number_of_game
+        check_num_game=false
+        while [[ $check_num_game != true ]]
+        do
+            if [[ $number_of_game != 1 ]] && [[ $number_of_game != 2 ]]
+            then
+                echo "Это некорректное значение"
+                read -p "Попробуйте еще раз: " number_of_game
+            else
+                check_num_game=true
+            fi
+        done
+        if [[ $number_of_game == 1 ]]
+        then
+            db_for_action=grades_bulls_and_cows
+        else
+            db_for_action=grades_cards
+        fi
+    fi
     case $action in
     1) bulls_and_cows;;
     2) cards_game;;
     3) review;;
     4) all_reviews $db_for_action;;
     5) rates;;
+    6) all_rates $db_for_action;;
     esac
     echo "Если хотите выйти из скрипта - введите 1"
     read -p "Если нет - введите 2: " repeat_or_not

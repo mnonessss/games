@@ -87,7 +87,13 @@ function is_digit {
     if [[ -n $digit_or_not ]]
     then
         check_is_digit=true
-    else
-        echo "Это не число"
     fi
+}
+
+function all_rates {
+    db_for_rates=$1
+    while read line
+    do
+        echo $line
+    done < $db_for_rates
 }

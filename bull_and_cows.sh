@@ -32,6 +32,13 @@ function bulls_and_cows {
         #проверка числа на корректность
         while [[ $number_checked != true ]]
         do
+            is_digit $number
+            if [[ $check_is_digit == false ]]
+            then
+                echo "Вы ввели не число"
+                read -p "Попробуйте еще раз: " number
+                continue
+            fi
             number1="$number"
             number1=${number1: 0:1}
             if [[ $number1 -eq 0 ]]
