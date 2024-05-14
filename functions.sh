@@ -97,3 +97,29 @@ function all_rates {
         echo $line
     done < $db_for_rates
 }
+
+function check_different {
+    digit4=$(($number%10))
+    let "digit3 = $number / 10"
+    digit3=$(($digit3%10))
+    let "digit2 = $number / 100"
+    digit2=$(($digit2%10))
+    let "digit1 = $number / 1000"
+    array_digits_user=($digit1 $digit2 $digit3 $digit4)
+    check=true
+    for ((i=0;i<4;i++))
+    do
+        for ((j=$(($i+1));j<4;j++))
+        do
+            if [[ ${array_digits_user[$i]} -eq ${array_digits_user[$j]} ]]
+            then
+                check=false
+                break
+            fi
+        done
+        if [[ $check == false ]]
+        then
+            break
+        fi
+    done
+}

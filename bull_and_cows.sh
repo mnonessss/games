@@ -52,6 +52,12 @@ function bulls_and_cows {
                 echo "Число должно быть четырехзначным"
                 read -p "Повторите попытку: " number
                 continue
+            fi
+            check_different
+            if [[ $check == false ]]
+            then
+                echo "В числе не могут содержаться одинаковые цифры"
+                read -p "Попробуйте еще раз:" number
             else
                 number_checked=true
             fi
