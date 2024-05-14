@@ -50,16 +50,6 @@ function number_to_digits {
     let "digit1 = $number / 1000"
 }
 
-function rewrite_coins {
-    temp=temp_file
-    for n in $(sed "$number_of_user c\ $coins" $db_coins)
-    do
-        echo $n >> $temp
-    done
-    rm $db_coins
-    mv $temp $db_coins
-}
-
 function all_reviews {
     db=$1
     while read line
