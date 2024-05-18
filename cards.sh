@@ -39,41 +39,14 @@ function cards_game {
             then
                 break
             fi
-            if [[ $card -eq 0 ]]
-            then
-                count0=$(($count0+1))
-                array_cards[$index]=0
-                index=$(($index+1))
-                break
-            fi       
-            if [[ $card -eq 1 ]]
-            then
-                count1=$(($count1+1))
-                array_cards[$index]=1
-                index=$(($index+1))
-                break
-            fi 
-            if [[ $card -eq 2 ]]
-            then
-                count2=$(($count2+1))
-                array_cards[$index]=2
-                index=$(($index+1))
-                break
-            fi 
-            if [[ $card -eq 3 ]]
-            then
-                count3=$(($count3+1))
-                array_cards[$index]=3
-                index=$(($index+1))
-                break
-            fi 
-            if [[ $card -eq 4 ]]
-            then
-                count4=$(($count4+1))
-                array_cards[$index]=4
-                index=$(($index+1))
-                break
-            fi 
+            case $card in
+            0) count0=$(($count0+1));array_cards[$index]=0;;
+            1) count1=$(($count1+1));array_cards[$index]=1;;
+            2) count2=$(($count2+1));array_cards[$index]=2;;
+            3) count3=$(($count3+1));array_cards[$index]=3;;
+            4) count4=$(($count4+1));array_cards[$index]=4;;
+            esac
+            index=$(($index+1)) 
         done
     done
     while [[ $numbers_to_guess -gt 0 ]]
