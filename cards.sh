@@ -79,24 +79,29 @@ function cards_game {
     while [[ $numbers_to_guess -gt 0 ]]
     do
         echo "Вам нужно сбросить еще $numbers_to_guess карточек. Обратите внимание: номер первой карточки должен быть меньше второго"
+        echo "Если вы хотите выйти из игры - введите 0 в первом поле"
         read -p "Введите номер первой карточки: " number1
         read -p "Введите номер второй карточки: " number2
         #проверяем корректность номеров карточек
         check_numbers_to_guess=false
         while [[ $check_numbers_to_guess != true ]]
         do
+            if [[ $number1 == "0" ]]
+            then
+                return 0
+            fi
             if [[ ${#number1} -ge 2 ]]
             then
                 echo "В первом поле вы ввели некорректное значение. Попробуйте еще раз"
                 read -p "Введите первое число: " number1
-                read -p "ВВедите второе число: " number2
+                read -p "Введите второе число: " number2
                 continue
             fi 
             if [[ ${#number2} -gt 2 ]]
             then
                 echo "Во втором поле вы ввели некорректное значение. Попробуйте еще раз"
                 read -p "Введите первое число: " number1
-                read -p "ВВедите второе число: " number2
+                read -p "Введите второе число: " number2
                 continue
             fi                
             is_digit $number1
@@ -104,7 +109,7 @@ function cards_game {
             then
                 echo "В первом поле вы ввели не число. Попробуйте еще раз."
                 read -p "Введите первое число: " number1
-                read -p "ВВедите второе число: " number2
+                read -p "Введите второе число: " number2
                 continue
             fi
             is_digit $number2
@@ -154,4 +159,3 @@ function cards_game {
     done
     echo "Вы выиграли!"
 }
-
