@@ -54,11 +54,16 @@ do
     done
     if [[ $action -eq 4 ]]
     then
+        echo "Если вы хотите выйти из отзывов - введите 0"
         echo "Если Вы хотите посмотреть отзывы об игре 'Быки и коровы', введите 1"
         read -p "Если Вы хотите посмотреть отзывы об игре 'Memory', введите 2: " number_of_game
         check_num_game=false
         while [[ $check_num_game != true ]]
         do
+            if [[ $number_of_game == "0" ]]
+            then
+                return 0
+            fi
             if [[ $number_of_game == 1 ]] || [[ $number_of_game == 2 ]]
             then
                 check_num_game=true
@@ -76,11 +81,16 @@ do
     fi
     if [[ $action -eq 6 ]]
     then
+        echo "Если вы хотите выйти из оценок - введите 0"
         echo "Если Вы хотите посмотреть оценки игры 'Быки и коровы', введите 1"
         read -p "Если Вы хотите посмотреть оценки игры 'Memory', введите 2: " number_of_game
         check_num_game=false
         while [[ $check_num_game != true ]]
         do
+            if [[ $number_of_game == "0" ]]
+            then
+                return 0
+            fi
             if [[ $number_of_game != 1 ]] && [[ $number_of_game != 2 ]]
             then
                 echo "Это некорректное значение"

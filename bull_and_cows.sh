@@ -25,6 +25,7 @@ function bulls_and_cows {
     c=$(($third * 10))
     d=$fourth
     answer=$(($a + $b + $c + $d))
+    echo "Если вы хотите выйти из игры - в поле для ввода числа введите 0"
     read -p "Введите число: " number
     while [[ $number != $answer ]]
     do
@@ -32,10 +33,15 @@ function bulls_and_cows {
         #проверка числа на корректность
         while [[ $number_checked != true ]]
         do
+            if [[ $number == "0" ]]
+            then
+                return 0
+            fi
             is_digit $number
             if [[ $check_is_digit == false ]]
             then
                 echo "Вы ввели не число"
+                echo "Если вы хотите выйти из игры - в поле для ввода числа введите 0"
                 read -p "Попробуйте еще раз: " number
                 continue
             fi
@@ -44,12 +50,14 @@ function bulls_and_cows {
             if [[ $number1 -eq 0 ]]
             then
                 echo "Ноль не может быть первой цифрой в числе"
+                echo "Если вы хотите выйти из игры - в поле для ввода числа введите 0"
                 read -p "Повторите попытку: " number
                 continue
             fi
             if [[ $number -le 999 ]] || [[ $number -gt 9999 ]]
             then
                 echo "Число должно быть четырехзначным"
+                echo "Если вы хотите выйти из игры - в поле для ввода числа введите 0"
                 read -p "Повторите попытку: " number
                 continue
             fi
@@ -57,18 +65,14 @@ function bulls_and_cows {
             if [[ $check == false ]]
             then
                 echo "В числе не могут содержаться одинаковые цифры"
+                echo "Если вы хотите выйти из игры - в поле для ввода числа введите 0"
                 read -p "Попробуйте еще раз:" number
             else
                 number_checked=true
             fi
         done
         #разделение числа на цифры
-        digit4=$(($number%10))
-        let "digit3 = $number / 10"
-        digit3=$(($digit3%10))
-        let "digit2 = $number / 100"
-        digit2=$(($digit2%10))
-        let "digit1 = $number / 1000"
+        number_to_digits $number
         bulls=0
         cows=0
         digits_my_number_array=($digit1 $digit2 $digit3 $digit4)
@@ -95,6 +99,7 @@ function bulls_and_cows {
             done
         done
         echo "В вашем числе $cows коров"
+        echo "Если вы хотите выйти из игры - в поле для ввода числа введите 0"
         read -p "Повторите попытку: " number
     done
     echo "Вы победили!!!"

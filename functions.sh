@@ -1,23 +1,3 @@
-function check_login {
-    login=$1
-    db_name=$2
-    separator=$3
-    if [[ -f $db_name ]]
-    then
-        for line in $(cat $db_name)
-        do
-            if [[ $line == $login$separator* ]]
-            then
-                return 1
-            fi
-        done
-    fi
-}
-
-function hash_pswd {
-    echo $1 | sha256sum | awk '{print $1}'
-}
-
 function check_number {
     number=$1
     while [[ $number_checked != true ]]
@@ -89,12 +69,7 @@ function all_rates {
 }
 
 function check_different {
-    digit4=$(($number%10))
-    let "digit3 = $number / 10"
-    digit3=$(($digit3%10))
-    let "digit2 = $number / 100"
-    digit2=$(($digit2%10))
-    let "digit1 = $number / 1000"
+    number_to_digits $number
     array_digits_user=($digit1 $digit2 $digit3 $digit4)
     check=true
     for ((i=0;i<4;i++))
